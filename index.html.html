@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Minecraft Team Hub</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#0b0f14;color:#eef2f7}
+header{padding:28px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #202833;background:#0e141b;position:sticky;top:0;z-index:5}
+.brand{font-size:24px;font-weight:900}.brand span{color:#67e08a}
+nav button{background:none;border:0;color:#aeb8c5;padding:10px 12px;cursor:pointer;font-weight:700}nav button:hover{color:white}
+main{max-width:1200px;margin:auto;padding:30px 20px}.page{display:none}.page.active{display:block}
+.hero{background:linear-gradient(135deg,#16231d,#111923);border:1px solid #27352e;border-radius:20px;padding:35px;display:flex;gap:25px;align-items:center}
+.logo{width:105px;height:105px;border-radius:20px;background:#111;display:grid;place-items:center;font-size:44px;border:2px solid #67e08a;overflow:hidden}.logo img{width:100%;height:100%;object-fit:cover}
+h1{margin:0 0 8px;font-size:40px}.muted{color:#9aa7b5}.tag{display:inline-block;background:#1e3327;color:#79ed99;padding:6px 10px;border-radius:99px;font-size:12px;font-weight:800;margin-top:8px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}.card{background:#111821;border:1px solid #222d38;border-radius:16px;padding:20px}.stat{font-size:30px;font-weight:900;margin-top:8px}
+.section{margin-top:28px}.section h2{margin-bottom:14px}
+.member{display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid #222d38;padding:15px 0}.member:last-child{border:0}.avatar{width:44px;height:44px;border-radius:12px;background:#1b2732;display:grid;place-items:center;font-weight:900}.member-info{display:flex;align-items:center;gap:12px;flex:1}.role{font-size:12px;color:#79ed99;background:#17251d;padding:5px 8px;border-radius:8px}
+table{width:100%;border-collapse:collapse}.card table td,.card table th{text-align:left;padding:12px;border-bottom:1px solid #222d38}
+button.primary,.btn{border:0;background:#67e08a;color:#07110b;padding:11px 15px;border-radius:10px;font-weight:900;cursor:pointer}.btn.danger{background:#422126;color:#ff9da8}
+form{display:grid;gap:12px;max-width:650px}input,select,textarea{width:100%;background:#0c1218;border:1px solid #303b47;color:white;padding:12px;border-radius:10px}textarea{min-height:90px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.notice{padding:14px;border:1px solid #293743;background:#101921;border-radius:12px;margin-bottom:10px}
+@media(max-width:750px){.grid,.row{grid-template-columns:1fr}.hero{flex-direction:column;text-align:center}h1{font-size:30px}header{align-items:flex-start;gap:10px;flex-direction:column}nav{overflow:auto;white-space:nowrap}}
+</style>
+</head>
+<body>
+<header><div class="brand">⚔️ Minecraft <span>Team Hub</span></div>
+<nav>
+<button onclick="show('home')">Home</button><button onclick="show('team')">Team</button><button onclick="show('stats')">PvP Stats</button><button onclick="show('rankings')">Rankings</button><button onclick="show('recruit')">Recruit</button><button onclick="show('admin')">Edit Team</button>
+</nav></header>
+<main>
+<section id="home" class="page active">
+<div class="hero"><div class="logo" id="logo">⚔️</div><div><h1 id="teamName">LoRd_Assasin</h1><div class="muted" id="bio">Competitive Minecraft PvP clan • Java Edition</div><span class="tag">ONLINE • RECRUITING</span></div></div>
+<div class="grid"><div class="card"><div class="muted">Members</div><div class="stat" id="memberCount">5</div></div><div class="card"><div class="muted">Team Wins</div><div class="stat">128</div></div><div class="card"><div class="muted">Clan Rank</div><div class="stat">#7</div></div></div>
+<div class="section"><h2>Team Highlights</h2><div class="grid"><div class="card">🏆 <b>Competitive</b><p class="muted">Built for serious PvP and tournaments.</p></div><div class="card">⚡ <b>Active Players</b><p class="muted">Clear roles and player statistics.</p></div><div class="card">🛡️ <b>Recruiting</b><p class="muted">Looking for skilled and active players.</p></div></div></div>
+</section>
+
+<section id="team" class="page"><h1>Team Members</h1><p class="muted">Players, roles and responsibilities.</p><div class="card" id="members"></div></section>
+
+<section id="stats" class="page"><h1>PvP Statistics</h1><p class="muted">Track your squad's performance.</p><div class="card"><table><thead><tr><th>Player</th><th>Kills</th><th>Deaths</th><th>K/D</th><th>Wins</th></tr></thead><tbody id="statsBody"></tbody></table></div></section>
+
+<section id="rankings" class="page"><h1>Clan Rankings</h1><p class="muted">Top Minecraft teams on the hub.</p><div class="card"><table><thead><tr><th>#</th><th>Clan</th><th>Points</th><th>Wins</th></tr></thead><tbody>
+<tr><td>1</td><td>VoidWalkers</td><td>2,840</td><td>190</td></tr><tr><td>2</td><td>NightRaid</td><td>2,710</td><td>176</td></tr><tr><td>3</td><td>Inferno</td><td>2,650</td><td>169</td></tr><tr><td>7</td><td><b id="rankTeam">LoRd_Assasin</b></td><td>2,210</td><td>128</td></tr>
+</tbody></table></div></section>
+
+<section id="recruit" class="page"><h1>Recruitment</h1><p class="muted">Apply to join the team.</p><div class="card"><form onsubmit="apply(event)"><input id="appName" placeholder="Minecraft username" required><div class="row"><select id="appRole"><option>PVPer</option><option>Crystal PvPer</option><option>Builder</option><option>Strategist</option><option>Content Creator</option></select><input id="appAge" type="number" min="13" placeholder="Age" required></div><textarea id="appMsg" placeholder="Tell the team about your skills..." required></textarea><button class="primary">Submit Application</button></form><div id="applications"></div></div></section>
+
+<section id="admin" class="page"><h1>Edit Team</h1><p class="muted">Customize your team's profile. Changes save in your browser.</p><div class="card"><form onsubmit="saveTeam(event)"><input id="nameInput" placeholder="Team name"><input id="bioInput" placeholder="Team bio"><label>Team logo <input id="logoInput" type="file" accept="image/*"></label><button class="primary">Save Team Profile</button></form></div>
+<div class="section card"><h2>Add Member</h2><form onsubmit="addMember(event)"><div class="row"><input id="newName" placeholder="Minecraft username" required><input id="newRole" placeholder="Role" required></div><button class="primary">Add Member</button></form></div></section>
+</main>
+<script>
+let members=JSON.parse(localStorage.getItem('mth_members')||'null')||[
+{name:'Xing',role:'Leader',kills:640,deaths:120,wins:58},{name:'Reach',role:'PvP Captain',kills:590,deaths:135,wins:51},
+{name:'Ra',role:'Strategist',kills:420,deaths:110,wins:39},{name:'Elaine',role:'Builder / Support',kills:260,deaths:95,wins:31},{name:'Satya',role:'Scout',kills:315,deaths:105,wins:34}];
+function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');render()}
+function render(){
+document.getElementById('memberCount').textContent=members.length;
+document.getElementById('members').innerHTML=members.map((m,i)=>`<div class="member"><div class="member-info"><div class="avatar">${m.name[0].toUpperCase()}</div><div><b>${m.name}</b><div class="muted">${m.role}</div></div></div><span class="role">${i===0?'CAPTAIN':'MEMBER'}</span></div>`).join('');
+document.getElementById('statsBody').innerHTML=members.map(m=>`<tr><td><b>${m.name}</b></td><td>${m.kills}</td><td>${m.deaths}</td><td>${(m.kills/m.deaths).toFixed(2)}</td><td>${m.wins}</td></tr>`).join('');
+}
+function saveTeam(e){e.preventDefault();let n=document.getElementById('nameInput').value.trim(),b=document.getElementById('bioInput').value.trim();if(n){document.getElementById('teamName').textContent=n;document.getElementById('rankTeam').textContent=n}if(b)document.getElementById('bio').textContent=b;let f=document.getElementById('logoInput').files[0];if(f){let r=new FileReader();r.onload=()=>{document.getElementById('logo').innerHTML='<img src="'+r.result+'">';localStorage.setItem('mth_logo',r.result)};r.readAsDataURL(f)}alert('Team profile saved!')}
+function addMember(e){e.preventDefault();members.push({name:newName.value,role:newRole.value,kills:0,deaths:0,wins:0});localStorage.setItem('mth_members',JSON.stringify(members));e.target.reset();render();alert('Member added!')}
+function apply(e){e.preventDefault();let box=document.getElementById('applications');box.innerHTML+=`<div class="notice">📨 <b>${appName.value}</b> applied for <b>${appRole.value}</b>. <span class="muted">Application received.</span></div>`;e.target.reset()}
+let saved=localStorage.getItem('mth_logo');if(saved)document.getElementById('logo').innerHTML='<img src="'+saved+'">';
+render();
+</script>
+</body></html>
